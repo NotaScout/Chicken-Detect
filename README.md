@@ -1,2 +1,9 @@
-# Chicken detect Roboflow Local
+# Chicken Detect
+
+Operates door through Omlet SDK
+
+
+
+
+
 
