@@ -41,7 +41,7 @@ omlet = Omlet(client)
 deviceInfo = omlet.get_devices()
 dev0 = deviceInfo[0]
 
-
+# mark for /rm*
 
 
 # Print values
@@ -78,12 +78,15 @@ OPEN_DOOR_JSON = action.Action.from_json({
     "actionValue":"open",
     "url": f"/device/{dev0.deviceId}/action/open"
 })
+# <<< end mark
+
 
 """Proper way"""
-
+# reduce to single line
 open_action = next((action for action in dev0.actions if action.name == 'open'), None)
 
 close_action = next((action for action in dev0.actions if action.name == 'close'), None)
+
 def main():
     Door1 = Autodoor(doorInfo=dev0)
     print(Door1.name)
