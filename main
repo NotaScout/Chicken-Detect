@@ -24,7 +24,6 @@ client = SmartCoopClient(client_secret=api_key_d1)
 omlet = Omlet(client)
 deviceInfo = omlet.get_devices()
 dev0 = deviceInfo[0]
-omlet
 # Print values
 
 '''
@@ -34,12 +33,14 @@ print(f"Debug mode: {debug_mode}")
 print(f"Devices={dev0}")
 '''
 
+targetDeviceId = [""]
 
 
 def main():
     Door1 = Autodoor(doorInfo=dev0)
     print(Door1.name)
     print(Door1.deviceId)
+    Door1.open_door()
 
 
 
