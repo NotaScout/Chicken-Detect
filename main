@@ -1,4 +1,3 @@
-
 # generic # includes
 import os
 
@@ -6,6 +5,22 @@ import os
 from dotenv import load_dotenv
 from smartcoop.client import SmartCoopClient 
 from smartcoop.api.omlet import Omlet 
+from smartcoop.api.models import action
+
+
+### IMPORTANT ###
+'''
+in <> replace 
+
+return response.json() 
+
+on ln 26 with
+
+if response.status_code != 204:
+    return response.json()
+
+'''
+###
 
 # device objects
 from Autodoor import Autodoor
@@ -22,26 +37,74 @@ debug_mode = os.getenv("DEBUG")
 #  Then use it
 client = SmartCoopClient(client_secret=api_key_d1)
 omlet = Omlet(client)
+
 deviceInfo = omlet.get_devices()
 dev0 = deviceInfo[0]
-omlet
-# Print values
 
+
+
+
+# Print values
+action
 '''
 print(f"API Key: {api_key_d1}")
 print(f"Database: {db_name_d1}")
 print(f"Debug mode: {debug_mode}")
 print(f"Devices={dev0}")
 '''
+'''
+opendoor = {
+    "actionName": "Open",
+    "description": "Open door",
+    "url": f"/device/{dev0.deviceId}/action/open"
+}
+'''
+class OPENDOOR:
+    def __init__(self):
+        self.actionName = "Open"
+        self.description = "Open door"
+        self.url = f"/device/{dev0.deviceId}/action/open"
 
+OPEN_DOOR = action.Action(
+    name="Open",
+    description="Open door",
+    value="open",
+    url=f"/device/{dev0.deviceId}/action/open"
+)
 
+OPEN_DOOR_JSON = action.Action.from_json({
+    "actionName": "Open",
+    "description": "Open door",
+    "actionValue":"open",
+    "url": f"/device/{dev0.deviceId}/action/open"
+})
 
+"""Proper way"""
+
+open_action = next((action for action in dev0.actions if action.name == 'open'), None)
+
+close_action = next((action for action in dev0.actions if action.name == 'close'), None)
 def main():
     Door1 = Autodoor(doorInfo=dev0)
     print(Door1.name)
     print(Door1.deviceId)
+    # prints full action list (all permutations)
+    #print(f'DOOR INITIAL STATE = {dev0.actions}')
+    print(f'DOOR INITIAL STATE = {dev0.state.door.state}')
+    if open_action:
+        omlet.perform_action(open_action)
+        
+    if close_action:
+        omlet.perform_action(close_action)
 
 
+    print(f'DOOR FINAL STATE = {dev0.state.door.state}')
+    '''
+    print(f'DOOR INITIAL STATE = {dev0.state.door.state}')
+    omlet.perform_action(action=OPEN_DOOR)
+    print(f'DOOR FINAL STATE = {dev0.state.door.state}')
+    
+'''
 
 if __name__ == "__main__":
     main()

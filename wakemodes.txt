@@ -1,0 +1,6 @@
+Goal	Best Approach	Typical Power
+Just detect if a known Wi-Fi network is nearby	ESP32 in passive scan mode	~20–70 mA during scan, <1 mA sleep
+Monitor for presence of specific MAC addresses (e.g., phone)	ESP32 or ESP8266 in promiscuous mode	~80–120 mA (brief), <1 mA sleep
+Receive broadcast UDP packets (e.g., status pings)	ESP32/ESP8266 in Wi-Fi Light Sleep	~2–10 mA average
+Full packet sniffing / deep monitoring	Raspberry Pi (Linux) in monitor mode	High (~500–700 mA or more)
+Scheduled wakeups for periodic scan	Microcontroller + deep sleep (ESP32)	<1 mA average if managed correctly
